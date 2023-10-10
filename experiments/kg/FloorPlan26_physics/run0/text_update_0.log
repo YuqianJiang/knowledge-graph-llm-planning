@@ -1,0 +1,36 @@
+------------------------------------------------
+STATE CHANGE: I opened the Fridge.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+DishSponge_c51474f6 -> isPlacedAt -> Fridge_22a96a15
+Apple_499e3527 -> isPlacedAt -> Fridge_22a96a15
+Tomato_f8bc52bb -> isPlacedAt -> Fridge_22a96a15
+ButterKnife_9d61f327 -> isPlacedAt -> Fridge_22a96a15
+Bowl_bd22067b -> isPlacedAt -> Fridge_22a96a15
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> openness -> 0.0
+Fridge_22a96a15 -> visible -> False
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> mass -> 0.0
+Fridge_22a96a15 -> controlledObjects -> None
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> openness -> 0.0
+Fridge_22a96a15 -> visible -> False
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> mass -> 0.0
+Fridge_22a96a15 -> controlledObjects -> None
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> openness -> 0.0
+
+ADD:
+Fridge_22a96a15 -> isOpen -> True
+Fridge_22a96a15 -> openness -> 1.0
+------------------------------------------------

@@ -93,7 +93,7 @@ class FillObjectWithLiquid(PersonAction):
 
     def to_text_update(self) -> str:
         obj_name = self.obj.split("|")[0]
-        return f"I filled the {obj_name} with {self.liquid}"
+        return f"I filled the {obj_name} with {self.liquid}."
 
     def execute(self, c: Controller) -> bool:
         same_type = [o for o in c.last_event.metadata['objects'] if o['objectType'] == self.obj]
@@ -131,9 +131,9 @@ state_changes = [ChangeObjectState("Fridge", "OpenObject"),
                  MoveTo("Egg", "Fridge"),
                  ChangeObjectState("Fridge", "CloseObject")]
 
-state_changes = [MoveTo('Mug', "CoffeeMachine"),
-                 FillObjectWithLiquid('Mug', 'coffee'),
-                 EmptyLiquidFromObject('Mug')]
+state_changes = [FillObjectWithLiquid('Mug', 'coffee'),
+                 EmptyLiquidFromObject('Mug'),
+                 MoveTo('Mug', "CounterTop")]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="knowledge_graph_llm_planning")
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         pgpass = f.read()
     pgpass = pgpass.strip().split('\n')[1].split(':')
     graph_name = "knowledge_graph"
-    log_dir = Path(__file__).parent.parent / f"experiments/kg/{args.scene}/run{args.run}/"
+    log_dir = Path(__file__).parent / f"experiments/kg/{args.scene}/run{args.run}/"
     log_dir.mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(stream=sys.stdout, level=logging.ERROR)
@@ -162,8 +162,8 @@ if __name__ == "__main__":
         log_dir=log_dir.as_posix()
     )
 
-    # controller = Controller(scene=f"{args.scene}", platform=CloudRendering, server_timeout=10)
-    controller = Controller(scene=f"{args.scene}")
+    controller = Controller(scene=f"{args.scene}", platform=CloudRendering, server_timeout=10)
+    # controller = Controller(scene=f"{args.scene}")
 
     event = controller.step(action="InitialRandomSpawn",
                             randomSeed=1,

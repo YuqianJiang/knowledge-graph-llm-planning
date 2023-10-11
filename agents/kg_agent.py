@@ -1,10 +1,15 @@
 from typing import Optional
 from pathlib import Path
 import os
+from functools import partial
 from llama_index.llms import OpenAI
+from llama_index import ServiceContext
+from llama_index.storage.storage_context import StorageContext
+from llama_index.retrievers import KnowledgeGraphRAGRetriever
 from ai2thor.server import MetadataWrapper
-from knowledge_graph.update_graph import KnowledgeGraphUpdater
+from knowledge_graph.update_graph import process_state_change
 from knowledge_graph.age_graph import AgeGraphStore
+from knowledge_graph.utils import get_prompt_template, extract_keywords
 
 class KnowledgeGraphThorAgent:
 
@@ -32,9 +37,21 @@ class KnowledgeGraphThorAgent:
             keys = f.read()
         keys = keys.strip().split('\n')
         os.environ["OPENAI_API_KEY"] = keys[0]
-        llm = OpenAI(temperature=0, model="gpt-4")
+        self._llm = OpenAI(temperature=0, model="gpt-4")
 
-        self._updater = KnowledgeGraphUpdater(llm=llm, graph_store=self._graph_store)
+        # self._updater = KnowledgeGraphUpdater(llm=llm, graph_store=self._graph_store)
+        self._service_context = ServiceContext.from_defaults(llm=self._llm)
+        self._storage_context = StorageContext.from_defaults(graph_store=self._graph_store)
+        self._graph_rag_retriever = KnowledgeGraphRAGRetriever(
+            storage_context=self._storage_context,
+            service_context=self._service_context,
+            verbose=True,
+            graph_traversal_depth=1,
+            max_knowledge_sequence=200,
+            entity_extract_fn=partial(extract_keywords, self._graph_store, self._service_context),
+            entity_extract_policy="union"
+        )
+
         self._log_dir = log_dir
         self._change_count = 0
         self._query_count = 0
@@ -134,7 +151,7 @@ class KnowledgeGraphThorAgent:
 
     def input_state_change(self, state_change: str) -> None:
         results_file = self._log_dir + "/text_update_" + str(self._change_count) + ".log"
-        self._updater.process_state_change(state_change, results_file)
+        process_state_change(self._graph_rag_retriever, self._graph_store, self._llm, state_change, results_file)
         self._change_count += 1
 
     def answer_planning_query(self, query: str) -> None:

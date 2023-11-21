@@ -15,14 +15,15 @@ def get_prompt_template(filename: str, **kwargs) -> str:
 
 def extract_keywords(graph_store: GraphStore,
                      service_context: ServiceContext,
+                     template: str,
                      query_str: str,
-                     max_keywords: Optional[int] = 5,
+                     max_keywords: Optional[int] = 10,
                      result_start_token: Optional[str] = "KEYWORDS:") -> list:
     entities = graph_store.query("MATCH (V:entity) RETURN V.name")
     entity_names = ", ".join([e[0].strip('\"') for e in entities])
 
     # load in all default prompts
-    ENTITY_SELECT_TEMPLATE = get_prompt_template("entity_select_prompt.txt", entity_names=entity_names)
+    ENTITY_SELECT_TEMPLATE = template.format(entity_names=entity_names)
     ENTITY_SELECT_PROMPT = PromptTemplate(
         ENTITY_SELECT_TEMPLATE,
         prompt_type=PromptType.QUERY_KEYWORD_EXTRACT,

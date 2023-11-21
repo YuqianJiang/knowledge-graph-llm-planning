@@ -1,0 +1,52 @@
+------------------------------------------------
+STATE CHANGE: I moved the Mug to the CoffeeMachine.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+CoffeeMachine_61ed6a3e -> receptacle -> True
+CoffeeMachine_61ed6a3e -> objectType -> CoffeeMachine
+CoffeeMachine_61ed6a3e -> isInteractable -> False
+CoffeeMachine_61ed6a3e -> temperature -> RoomTemp
+CoffeeMachine_61ed6a3e -> isPlacedAt -> CounterTop_8700c90d
+CoffeeMachine_61ed6a3e -> isHeatSource -> True
+CoffeeMachine_61ed6a3e -> toggleable -> True
+CoffeeMachine_61ed6a3e -> isToggled -> False
+Mug_8e482ae7 -> receptacle -> True
+Mug_8e482ae7 -> objectType -> Mug
+Mug_8e482ae7 -> isInteractable -> False
+Mug_8e482ae7 -> temperature -> RoomTemp
+Mug_8e482ae7 -> controlledObjects -> None
+Mug_8e482ae7 -> isPlacedAt -> Plate_24f0b140
+Mug_8e482ae7 -> breakable -> True
+Mug_8e482ae7 -> isBroken -> False
+Mug_8e482ae7 -> pickupable -> True
+Mug_8e482ae7 -> isPickedUp -> False
+Mug_8e482ae7 -> dirtyable -> True
+Mug_8e482ae7 -> isDirty -> False
+Mug_8e482ae7 -> canFillWithLiquid -> True
+Mug_8e482ae7 -> isFilledWithLiquid -> False
+Mug_8e482ae7 -> fillLiquid -> None
+------------------------------------------------
+FILTERED TRIPLETS:
+
+CoffeeMachine_61ed6a3e -> receptacle -> True
+CoffeeMachine_61ed6a3e -> objectType -> CoffeeMachine
+CoffeeMachine_61ed6a3e -> isInteractable -> False
+CoffeeMachine_61ed6a3e -> isPlacedAt -> CounterTop_8700c90d
+Mug_8e482ae7 -> objectType -> Mug
+Mug_8e482ae7 -> isInteractable -> False
+Mug_8e482ae7 -> isPlacedAt -> Plate_24f0b140
+Mug_8e482ae7 -> pickupable -> True
+Mug_8e482ae7 -> isPickedUp -> False
+Mug_8e482ae7 -> canFillWithLiquid -> True
+Mug_8e482ae7 -> isFilledWithLiquid -> False
+Mug_8e482ae7 -> fillLiquid -> None
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Mug_8e482ae7 -> isPlacedAt -> Plate_24f0b140
+
+ADD:
+Mug_8e482ae7 -> isPlacedAt -> CoffeeMachine_61ed6a3e
+------------------------------------------------

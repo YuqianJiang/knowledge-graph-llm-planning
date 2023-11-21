@@ -1,0 +1,79 @@
+Can you bring the mug with coffee to the dining table?
+metadata={'prompt_type': <PromptType.QUERY_KEYWORD_EXTRACT: 'query_keyword_extract'>} template_vars=['max_keywords', 'question'] kwargs={} output_parser=None template="A question is provided below. Given the question, extract up to {max_keywords} keywords from the text. Focus on extracting the keywords that we can use to best lookup answers to the question. Avoid stopwords.\n---------------------\n{question}\n---------------------\nProvide keywords in the following comma-separated format: 'KEYWORDS: <keywords>'\n"
+[32;1m[1;3mEntities processed: ['dining', 'bring', 'mug', 'Mug_8e482ae7', 'CoffeeMachine_61ed6a3e', 'coffee', 'Robot', 'task', 'robot', 'DiningTable_b56db783', 'table', 'dining table.']
+[0mmetadata={'prompt_type': <PromptType.QUERY_KEYWORD_EXTRACT: 'query_keyword_extract'>} template_vars=['max_keywords', 'question'] kwargs={} output_parser=None template="\nGenerate synonyms or possible form of keywords up to {max_keywords} in total,\nconsidering possible cases of capitalization, pluralization, common expressions, etc.\nProvide all synonyms of keywords in comma-separated format: 'SYNONYMS: <keywords>'\nNote, result should be in one-line with only one 'SYNONYMS: ' prefix\n----\nKEYWORDS: {question}\n----\n"
+[32;1m[1;3mEntities processed: ['dining desk.', 'dining', 'bot', 'cup', 'carry', 'CoffeeMaker_61ed6a3e', 'Mug_8e482ae7', 'chore', 'java', 'Automaton', 'desk', 'DiningDesk_b56db783', 'eating']
+[0m[36;1m[1;3mGraph RAG context:
+The following are knowledge sequence in max depth 2 in the form of directed graph like:
+`subject -[predicate]->, object, <-[predicate_next_hop]-, object_next_hop ...` extracted based on key entities as subject:
+CoffeeMachine_61ed6a3e, -[temperature], -> RoomTemp
+CoffeeMachine_61ed6a3e, -[receptacle], -> True
+CoffeeMachine_61ed6a3e, -[toggleable], -> True
+CoffeeMachine_61ed6a3e, -[isToggled], -> False
+CoffeeMachine_61ed6a3e, -[isHeatSource], -> True
+CoffeeMachine_61ed6a3e, -[isPlacedAt], -> CounterTop_8700c90d
+Mug_8e482ae7, -[isPlacedAt], -> CoffeeMachine_61ed6a3e
+CounterTop_8700c90d, -[temperature], -> RoomTemp
+CounterTop_8700c90d, -[controlledObjects], -> None
+CounterTop_8700c90d, -[receptacle], -> True
+Potato_c28289a1, -[isPlacedAt], -> CounterTop_8700c90d
+Mug_8e482ae7, -[pickupable], -> True
+Mug_8e482ae7, -[isPickedUp], -> False
+Mug_8e482ae7, -[temperature], -> RoomTemp
+Mug_8e482ae7, -[controlledObjects], -> None
+Mug_8e482ae7, -[receptacle], -> True
+Mug_8e482ae7, -[breakable], -> True
+Mug_8e482ae7, -[isBroken], -> False
+Mug_8e482ae7, -[canFillWithLiquid], -> True
+Mug_8e482ae7, -[isFilledWithLiquid], -> True
+Mug_8e482ae7, -[fillLiquid], -> coffee
+Mug_8e482ae7, -[dirtyable], -> True
+Mug_8e482ae7, -[isDirty], -> False
+DiningTable_b56db783, -[temperature], -> RoomTemp
+DiningTable_b56db783, -[controlledObjects], -> None
+DiningTable_b56db783, -[receptacle], -> True
+Toaster_f745e839, -[isPlacedAt], -> DiningTable_b56db783
+Knife_3c40791c, -[isPlacedAt], -> DiningTable_b56db783
+Plate_24f0b140, -[isPlacedAt], -> DiningTable_b56db783
+Toaster_f745e839, -[temperature], -> RoomTemp
+Toaster_f745e839, -[receptacle], -> True
+Toaster_f745e839, -[toggleable], -> True
+Toaster_f745e839, -[isToggled], -> False
+Toaster_f745e839, -[isHeatSource], -> True
+Knife_3c40791c, -[pickupable], -> True
+Knife_3c40791c, -[isPickedUp], -> False
+Knife_3c40791c, -[temperature], -> RoomTemp
+Knife_3c40791c, -[controlledObjects], -> None
+Plate_24f0b140, -[pickupable], -> True
+Plate_24f0b140, -[isPickedUp], -> False
+Plate_24f0b140, -[temperature], -> RoomTemp
+Plate_24f0b140, -[controlledObjects], -> None
+Plate_24f0b140, -[receptacle], -> True
+Plate_24f0b140, -[breakable], -> True
+Plate_24f0b140, -[isBroken], -> False
+Plate_24f0b140, -[dirtyable], -> True
+Plate_24f0b140, -[isDirty], -> False
+Mug_8e482ae7, -[pickupable], -> True
+Mug_8e482ae7, -[isPickedUp], -> False
+Mug_8e482ae7, -[temperature], -> RoomTemp
+Mug_8e482ae7, -[controlledObjects], -> None
+Mug_8e482ae7, -[receptacle], -> True
+Mug_8e482ae7, -[breakable], -> True
+Mug_8e482ae7, -[isBroken], -> False
+Mug_8e482ae7, -[canFillWithLiquid], -> True
+Mug_8e482ae7, -[isFilledWithLiquid], -> True
+Mug_8e482ae7, -[fillLiquid], -> coffee
+Mug_8e482ae7, -[dirtyable], -> True
+Mug_8e482ae7, -[isDirty], -> False
+Mug_8e482ae7, -[isPlacedAt], -> CoffeeMachine_61ed6a3e
+CoffeeMachine_61ed6a3e, -[temperature], -> RoomTemp
+CoffeeMachine_61ed6a3e, -[receptacle], -> True
+CoffeeMachine_61ed6a3e, -[toggleable], -> True
+CoffeeMachine_61ed6a3e, -[isToggled], -> False
+CoffeeMachine_61ed6a3e, -[isHeatSource], -> True
+CoffeeMachine_61ed6a3e, -[isPlacedAt], -> CounterTop_8700c90d
+Robot, -[atLocation], -> LightSwitch_43d10eaa
+LightSwitch_43d10eaa, -[temperature], -> RoomTemp
+LightSwitch_43d10eaa, -[toggleable], -> True
+LightSwitch_43d10eaa, -[isToggled], -> True
+[0m

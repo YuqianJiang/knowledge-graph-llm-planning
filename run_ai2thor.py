@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 from pathlib import Path
+from typing import Optional
 
 from ai2thor.controller import Controller
 from ai2thor.platform import CloudRendering
@@ -18,10 +19,10 @@ class PersonAction:
         pass
 
 class MoveTo(PersonAction):
-    def __init__(self, obj: str, to: str):
+    def __init__(self, obj: str, to: str, next_to: Optional[str] = None):
         self.obj = obj
         self.to = to
-        self.next_to = None
+        self.next_to = next_to
 
     def to_text_update(self) -> str:
         if self.next_to:
@@ -33,15 +34,24 @@ class MoveTo(PersonAction):
         receptacles = [r for r in c.last_event.metadata['objects'] if r['objectType'] == self.to]
         if len(receptacles) == 0:
             return False
-        receptacle = receptacles[0]
+
+        if self.next_to:
+            receptacle = None
+            for recep in receptacles:
+                if len([obj for obj in recep['receptacleObjectIds'] if self.next_to in obj]) > 0:
+                    receptacle = recep
+                    break
+            if receptacle is None:
+                return False
+        # disambiguate if there are multiple instances of the receptacle
+        elif len(receptacles) == 1:
+            receptacle = receptacles[0]
+        else:
+            return False
 
         event = controller.step('GetSpawnCoordinatesAboveReceptacle', objectId=receptacle['objectId'], anywhere=True)
         if not event.metadata['lastActionSuccess']:
             return False
-
-        # disambiguate if there are multiple instances of the receptacle
-        if len(receptacles) > 1 and len(receptacle['receptacleObjectIds']) > 0:
-            self.next_to = receptacle['receptacleObjectIds'][0]
 
         same_type = [o for o in c.last_event.metadata['objects'] if o['objectType'] == self.obj]
         if len(same_type) == 0:
@@ -111,7 +121,7 @@ class EmptyLiquidFromObject(PersonAction):
         self.obj = obj
 
     def to_text_update(self) -> str:
-        return f"I finished the liquid in the {self.obj}."
+        return f"I finished the drink in the {self.obj}."
 
     def execute(self, c: Controller) -> bool:
         same_type = [o for o in c.last_event.metadata['objects'] if o['objectType'] == self.obj]
@@ -127,13 +137,18 @@ class EmptyLiquidFromObject(PersonAction):
         return True
 
 
-state_changes = [ChangeObjectState("Fridge", "OpenObject"),
-                 MoveTo("Egg", "Fridge"),
-                 ChangeObjectState("Fridge", "CloseObject")]
+# state_changes = [ChangeObjectState("Fridge", "OpenObject"),
+#                  MoveTo("Egg", "Fridge"),
+#                  ChangeObjectState("Fridge", "CloseObject")]
 
-state_changes = [FillObjectWithLiquid('Mug', 'coffee'),
-                 EmptyLiquidFromObject('Mug'),
-                 MoveTo('Mug', "CounterTop")]
+# state_changes = [MoveTo('Mug', "CoffeeMachine"),
+#                  FillObjectWithLiquid('Mug', 'coffee'),
+#                  EmptyLiquidFromObject('Mug')]
+
+state_changes = [MoveTo('Mug', "CoffeeMachine"),
+                 FillObjectWithLiquid('Mug', 'coffee')]
+
+# state_changes = [MoveTo('Apple', "Plate")]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="knowledge_graph_llm_planning")
@@ -148,32 +163,41 @@ if __name__ == "__main__":
         pgpass = f.read()
     pgpass = pgpass.strip().split('\n')[1].split(':')
     graph_name = "knowledge_graph"
-    log_dir = Path(__file__).parent / f"experiments/kg/{args.scene}/run{args.run}/"
+    log_dir = Path(f"./experiments/kg/{args.scene}/run{args.run}/")
     log_dir.mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(stream=sys.stdout, level=logging.ERROR)
 
+    # controller = Controller(scene=f"{args.scene}", platform=CloudRendering, server_timeout=10)
+    controller = Controller(scene=f"{args.scene}")
+
     agent = KnowledgeGraphThorAgent(
+        controller=controller,
         host=pgpass[0],
         dbname=pgpass[2],
         user=pgpass[3],
         password=pgpass[4],
         port=5432,
-        log_dir=log_dir.as_posix()
+        log_dir=log_dir.as_posix(),
     )
 
-    controller = Controller(scene=f"{args.scene}", platform=CloudRendering, server_timeout=10)
-    # controller = Controller(scene=f"{args.scene}")
-
-    event = controller.step(action="InitialRandomSpawn",
-                            randomSeed=1,
-                            forceVisible=False,
-                            numPlacementAttempts=5,
-                            placeStationary=True)
-    metadata = event.metadata
-    agent.load_simulation_state(metadata)
+    # event = controller.step(action="InitialRandomSpawn",
+    #                         randomSeed=1,
+    #                         forceVisible=False,
+    #                         numPlacementAttempts=5,
+    #                         placeStationary=True)
+    event = controller.step(action="Pass")
+    agent.load_simulation_state(event.metadata)
 
     for i, state_change in enumerate(state_changes):
         state_change.execute(controller)
-        agent.input_state_change(state_change.to_text_update())
+    #     agent.input_state_change(state_change.to_text_update())
+
+    for i in range(100):
+        agent.wander()
+
+
+    agent.answer_planning_query("Can you bring the mug with coffee to the dining table?")
+    # agent.answer_planning_query("Can you put a clean mug on the dining table?")
+    # agent.answer_planning_query("Can you chill the apple?")
 

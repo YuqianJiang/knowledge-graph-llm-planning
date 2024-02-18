@@ -46,14 +46,17 @@ if __name__ == "__main__":
     event = task.start()
     agent.load_simulation_state(event.metadata)
 
-    for t in range(10):
+    agent_plan = False  # If false, we simulate planning using a previous run
+    plan_timestep = [0]  # Timesteps at which to plan
+    for t in range(8):
         state_changes = task.human_step(t)
-        agent.update_state(state_changes)
-        print("one step")
+        agent.update_state(state_changes=state_changes, wander_step=10)
+        if t in plan_timestep:
+            if agent_plan:
+                plan_file_name = agent.answer_planning_query(task.query)
+            else:
+                plan_file_name = "experiments/kg/FloorPlan26_physics/run3/plan_0.pddl"
+            agent.read_plan_for_execution(plan_file_name)
+        succeed = agent.act()
+        print("Step ", t, "succeed: ", succeed)
 
-    agent_plan = False
-    if agent_plan:
-        query = task.query
-        agent.answer_planning_query(query)
-
-    # TODO: execute agent plan

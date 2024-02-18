@@ -9,13 +9,12 @@ class Task:
         A Task maintains the scene, the potential human actions, as well as the controller that steps the environment.
         """
         self.name = name
-        self.t = 0
         if name == "BringCoffee":
             self.query = "Can you bring the mug with coffee to the dining table?"
-            self.scene = "FloorPlan10"
+            self.scene = "FloorPlan26_physics"  # "FloorPlan10"
             hum_act1 = [MoveTo('Mug', "CoffeeMachine"),
                         FillObjectWithLiquid('Mug', 'coffee')]
-            self.state_changes = {1: hum_act1}
+            self.state_changes = {0: hum_act1}
 
         elif name == "ChillApple":
             self.query = "Can you chill the apple?"
@@ -59,10 +58,6 @@ class Task:
         Returns the state changes corresponding to a specific time step.
         """
         state_changes = self.state_changes.get(time, [])
-        print(f"Time: {time}, State Changes: {state_changes}")
         for i, event in enumerate(state_changes):
             event.execute(self.controller)
         return state_changes
-
-    def reset(self):
-        self.t = 0

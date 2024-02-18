@@ -88,13 +88,14 @@ class KnowledgeGraphThorAgent:
         self._name_to_id = {}
         self._static_locations = []
         self.update_method = update_method
+        self.plan = []
 
     def input_initial_state(self, initial_state: str, knowledge_yaml: str) -> None:
         pass
 
-    def update_state(self, state_changes=None) -> None:
+    def update_state(self, wander_step=100, state_changes=None) -> None:
         if self.update_method == "wander":
-            for i in range(100):
+            for i in range(wander_step):
                 self.wander()
         elif self.update_method == "text":
             assert state_changes is not None
@@ -104,6 +105,49 @@ class KnowledgeGraphThorAgent:
             pass
         else:
             raise NotImplementedError
+
+    def act(self):
+        """
+        Take actions using the controller and the plan
+        """
+
+        if len(self.plan) == 0:
+            # No plan to execute
+            return
+
+        # rebuild an upper name dict
+        self.upper_name_to_lower_name = {k.upper(): k for k in self._name_to_id.keys()}
+        action = self.plan.pop(0)
+        obj1 = self.upper_name_to_lower_name[action[2]]
+        if len(action) > 3:
+            assert len(action) == 4
+            obj2 = self.upper_name_to_lower_name[action[3]]
+
+        # Build an action dict
+        valid_actions = ["PickupObject", "PutObject", "OpenObject", "CloseObject", "CleanObject", "GoToObject"]
+        self.upper_action_to_action = {k.upper(): k for k in valid_actions}
+
+        if action[0] == "PUTDOWNOBJECT":
+            info = self.putdown_object(obj1, obj2)
+        elif action[0] == "GOTOOBJECTFROM":
+            info = self.go_to_object(obj2)
+        else:
+            info = self.manipulate_object(self.upper_action_to_action[action[0]], obj2)
+        return info
+
+    def manipulate_object(self, action, object_name1):
+        object_id = self._name_to_id[object_name1]
+        event = self._controller.step(action=action, objectId=object_id, forceAction=True)
+        self.input_observed_state()
+        return event.metadata['lastActionSuccess']
+
+    def putdown_object(self, object_name1, object_name2):
+        object_id1 = self._name_to_id[object_name1]
+        object_id2 = self._name_to_id[object_name2]
+        # receptacleObjectId=object_id1 is not used in the current version of AI2-THOR, why?
+        event = self._controller.step(action='PutObject', objectId=object_id2, forceAction=True)
+        self.input_observed_state()
+        return event.metadata['lastActionSuccess']
 
 
     def load_relation(self, obj, r, metadata, cur):
@@ -214,14 +258,15 @@ class KnowledgeGraphThorAgent:
 
     def go_to_object(self, object_name):
         object_id = self._name_to_id[object_name]
-        event = self._controller.step(action='PositionsFromWhichItemIsInteractable', objectId=object_id)
+        event = self._controller.step(action='GetInteractablePoses', objectId=object_id)
+        # event = self._controller.step(action='PositionsFromWhichItemIsInteractable', objectId=object_id)
         poses = event.metadata['actionReturn']
-        for i in range(len(poses['x'])):
-            position = dict(x=poses['x'][i], y=poses['y'][i], z=poses['z'][i])
+        for i in range(len(poses)):
+            position = dict(x=poses[i]['x'], y=poses[i]['y'], z=poses[i]['z'])
             event = self._controller.step(action="TeleportFull",
                                           position=position,
-                                          rotation=dict(y=poses['rotation'][i]),
-                                          standing=poses['standing'][i], horizon=poses['horizon'][i])
+                                          rotation=dict(y=poses[i]['rotation']),
+                                          standing=poses[i]['standing'], horizon=poses[i]['horizon'])
             if event.metadata['lastActionSuccess']:
                 obj = [o for o in event.metadata['objects'] if o['name'] == object_name][0]
                 if obj['isInteractable'] and obj['visible']:
@@ -295,6 +340,15 @@ class KnowledgeGraphThorAgent:
         process_state_change(self._rag_update_retriever, self._graph_store, self._llm, state_change, results_file)
         self._change_count += 1
 
+    def read_plan_for_execution(self, plan_fn: str) -> None:
+        with open(plan_fn, "r") as f:
+            lines = f.readlines()
+        plan = []
+        for line in lines:
+            plan.append(line.strip('()\n').split())
+        self.plan = plan
+        return plan
+
     def answer_planning_query(self, query: str) -> None:
         # A. generate problem pddl file
         log_file = self._log_dir + "/plan_query_" + str(self._query_count) + ".log"
@@ -357,6 +411,7 @@ class KnowledgeGraphThorAgent:
                   f"> {log_file}.pddl.log")
 
         self._query_count += 1
+        return plan_file_name
 
     def answer_query(self, query: str) -> str:
         pass

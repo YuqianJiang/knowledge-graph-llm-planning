@@ -29,7 +29,8 @@ class KnowledgeGraphThorAgent:
                  password: str,
                  port: Optional[int] = 5432,
                  graph_name: Optional[str] = "knowledge_graph",
-                 log_dir: Optional[str] = ""):
+                 log_dir: Optional[str] = "",
+                 update_method: Optional[str] = "none"):
         self._controller = controller
         self.graph_name = graph_name
         self._graph_store = AgeGraphStore(
@@ -86,10 +87,23 @@ class KnowledgeGraphThorAgent:
         self._query_count = 0
         self._name_to_id = {}
         self._static_locations = []
+        self.update_method = update_method
 
     def input_initial_state(self, initial_state: str, knowledge_yaml: str) -> None:
         pass
 
+    def update_state(self, state_changes=None) -> None:
+        if self.update_method == "wander":
+            for i in range(100):
+                self.wander()
+        elif self.update_method == "text":
+            assert state_changes is not None
+            for i, state_change in enumerate(state_changes):
+                self.input_state_change(state_change.to_text_update())
+        elif self.update_method == "none":
+            pass
+        else:
+            raise NotImplementedError
 
 
     def load_relation(self, obj, r, metadata, cur):

@@ -15,7 +15,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="knowledge_graph_llm_planning")
     parser.add_argument('--method', type=str, choices=["knowledge_graph"],
                                               default="knowledge_graph")
-    parser.add_argument('--task', type=str, default="BringCoffee")
+    parser.add_argument('--task', type=str, default="BringCoffee") # BringCoffee, ChillApple, CleanMug
     parser.add_argument('--run', type=int, default=0)
     args = parser.parse_args()
 
@@ -31,6 +31,7 @@ if __name__ == "__main__":
 
     task = Task(name=args.task)
 
+    agent_update_method = "none"  # wander, text, none
     agent = KnowledgeGraphThorAgent(
         controller=task.controller,
         host=pgpass[0],
@@ -39,30 +40,20 @@ if __name__ == "__main__":
         password=pgpass[4],
         port=5432,
         log_dir=log_dir.as_posix(),
+        update_method=agent_update_method
     )
 
     event = task.start()
     agent.load_simulation_state(event.metadata)
 
     for t in range(10):
-        task.human_step()
-
-    agent_update_method = "none"
-    if agent_update_method == "wander":
-        for i in range(100):
-            agent.wander()
-    elif agent_update_method == "text":
-        state_changes = task.state_changes  # TODO: if this is a dictionary, how should we handle it?
-        for i, state_change in enumerate(state_changes):
-            agent.input_state_change(state_change.to_text_update())
-    elif agent_update_method == "none":
-        pass
-    else:
-        raise NotImplementedError
+        state_changes = task.human_step(t)
+        agent.update_state(state_changes)
+        print("one step")
 
     agent_plan = False
     if agent_plan:
         query = task.query
         agent.answer_planning_query(query)
 
-
+    # TODO: execute agent plan

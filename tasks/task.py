@@ -13,8 +13,9 @@ class Task:
         if name == "BringCoffee":
             self.query = "Can you bring the mug with coffee to the dining table?"
             self.scene = "FloorPlan10"
-            self.state_changes = [MoveTo('Mug', "CoffeeMachine"),
-                                  FillObjectWithLiquid('Mug', 'coffee')]
+            hum_act1 = [MoveTo('Mug', "CoffeeMachine"),
+                        FillObjectWithLiquid('Mug', 'coffee')]
+            self.state_changes = {1: hum_act1}
 
         elif name == "ChillApple":
             self.query = "Can you chill the apple?"
@@ -30,9 +31,10 @@ class Task:
         elif name == "CleanMug":
             self.query = "Can you put a clean mug on the dining table?"
             self.scene = "FloorPlan10"
-            self.state_changes = [MoveTo('Mug', "CoffeeMachine"),
-                                  FillObjectWithLiquid('Mug', 'water'),
-                                  EmptyLiquidFromObject('Mug')]
+            hum_act1 = [MoveTo('Mug', "CoffeeMachine")]
+            hum_act2 = [FillObjectWithLiquid('Mug', 'coffee')]
+            hum_act3 = [EmptyLiquidFromObject('Mug')]
+            self.state_changes = {1: hum_act1, 2: hum_act2, 3: hum_act3}
         else:
             raise NotImplementedError
 
@@ -52,9 +54,15 @@ class Task:
         event = self.controller.step(action="Pass")
         return event
 
-    def human_step(self):
-        for i, state_change in enumerate(self.state_changes):
-            state_change.execute(self.controller)
+    def human_step(self, time):
+        """
+        Returns the state changes corresponding to a specific time step.
+        """
+        state_changes = self.state_changes.get(time, [])
+        print(f"Time: {time}, State Changes: {state_changes}")
+        for i, event in enumerate(state_changes):
+            event.execute(self.controller)
+        return state_changes
 
     def reset(self):
         self.t = 0

@@ -144,8 +144,7 @@ class KnowledgeGraphThorAgent:
     def putdown_object(self, object_name1, object_name2):
         object_id1 = self._name_to_id[object_name1]
         object_id2 = self._name_to_id[object_name2]
-        # receptacleObjectId=object_id1 is not used in the current version of AI2-THOR, why?
-        event = self._controller.step(action='PutObject', objectId=object_id2, forceAction=True)
+        event = self._controller.step(action='PutObject', objectId=object_id1, forceAction=True)
         self.input_observed_state()
         return event.metadata['lastActionSuccess']
 
@@ -356,10 +355,12 @@ class KnowledgeGraphThorAgent:
         with open(log_file + ".context.log", "w") as f:
             f.write(query + "\n")
             with redirect_stdout(f):
+                # llama index implements querying knowledge graph
+                # this returns the relation graph
                 nodes = self._query_engine.retrieve("I have a task for the robot: " + query)
 
         objects = set()
-        constants = {'Cold', 'Hot', 'RoomTemp', 'Water', 'Coffee', 'Wine'}
+        constants = {'Cold', 'Hot', 'RoomTemp', 'Water', 'Coffee', 'Wine'} # Remove these from entity (in pddl)
         init_block = "\t(:init\n"
         for rel in nodes[0].metadata['kg_rel_text']:
             predicate = rel.split('-[')[1].split(']')[0]

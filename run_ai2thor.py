@@ -49,7 +49,9 @@ if __name__ == "__main__":
     agent_plan = False  # If false, we simulate planning using a previous run
     for t in range(8):
         state_changes = task.human_step(t)
-        agent.update_state(state_changes=state_changes, wander_step=10)
+        if len(state_changes) > 0:
+            print("state changed, updating agent state")
+            agent.update_state(state_changes=state_changes, wander_step=10)
         if len(state_changes) > 0 or t == 0:  # replan condition
             if agent_plan:
                 plan_file_name = agent.answer_planning_query(task.query)

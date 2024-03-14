@@ -24,7 +24,7 @@ def process_state_change(retriever: KnowledgeGraphRAGRetriever, graph_store: Gra
     with open(os.devnull,"w") as devNull:
         orig = sys.stdout
         sys.stdout = devNull
-        context_nodes = retriever.retrieve(state_change)
+        context_nodes = retriever.retrieve(state_change)  # This step queries the knowledge graph
         sys.stdout = orig
     context_str = context_nodes[0].text if len(context_nodes) > 0 else "None"
 

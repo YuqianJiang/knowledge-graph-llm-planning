@@ -2,6 +2,7 @@ from .human_actions import MoveTo, FillObjectWithLiquid, EmptyLiquidFromObject, 
 from ai2thor.controller import Controller
 from ai2thor.platform import CloudRendering
 from ai2thor.server import MetadataWrapper
+import ipdb
 
 class Task:
     def __init__(self, name):
@@ -25,6 +26,12 @@ class Task:
             self.query = "Can you cook the patato?"
             self.scene = "FloorPlan10"
             hum_act1 = self.hide_obj_in_container("Bread", "Fridge")
+            self.state_changes = {0: hum_act1}
+
+        elif name == "CleanUpKitchen":
+            self.query = "Can you clean up the kitchen?"
+            self.scene = "FloorPlan10"
+            hum_act1 = [MoveTo('Potato', "Fridge"), MoveTo('Bread', "Fridge"), MoveTo('Egg', "Fridge"), MoveTo('Mug', "Fridge")]
             self.state_changes = {0: hum_act1}
 
         elif name == "CleanMug":
@@ -56,11 +63,15 @@ class Task:
         else:
             raise NotImplementedError
 
+        use_cloud_render = False
         # Initialize controller
-        # controller = Controller(scene=f"{task.scene}", platform=CloudRendering, server_timeout=10)
-        self.controller = Controller(scene=f"{self.scene}")
+        if use_cloud_render:
+            self.controller = Controller(scene=f"{self.scene}", platform=CloudRendering, server_timeout=10)
+        else:
+            self.controller = Controller(scene=f"{self.scene}")
 
     def hide_obj_in_container(self, obj, container):
+        # TODO: seems like this is not necessary -> move to is enough
         assert container in ["Fridge", "Cabinet", "Microwave"]
         state_changes = [ChangeObjectState(container, "OpenObject"),
                          MoveTo(obj, container),
@@ -71,17 +82,22 @@ class Task:
         """
         This function sets up the initial state of the environment.
         """
-        # event = controller.step(action="InitialRandomSpawn",
-        #                         randomSeed=1,
-        #                         forceVisible=False,
-        #                         numPlacementAttempts=5,
-        #                         placeStationary=True)
-        event = self.controller.step(action="Pass")
+        randomize_intial_state = False
+        if randomize_intial_state:
+            event = self.controller.step(action="InitialRandomSpawn",
+                                         randomSeed=1,
+                                         forceVisible=False,
+                                         numPlacementAttempts=5,
+                                         placeStationary=True)
+        else:
+            event = self.controller.step(action="Pass")
 
-        # # List all objects in the scene
-        # objects = event.metadata['objects']
-        # for obj in objects:
-        #     print(obj['objectType'])
+        # TODO: set to true to list all objects in the scene
+        print_object_types = False
+        if print_object_types:
+            objects = event.metadata['objects']
+            for obj in objects:
+                print(obj['objectType'])
         return event
 
     def human_step(self, time):
@@ -90,5 +106,8 @@ class Task:
         """
         state_changes = self.state_changes.get(time, [])
         for i, event in enumerate(state_changes):
-            event.execute(self.controller)
+            suceess = event.execute(self.controller)
+            if not suceess:
+                print(f"Action {i} failed: {event}")
+                ipdb.set_trace()
         return state_changes

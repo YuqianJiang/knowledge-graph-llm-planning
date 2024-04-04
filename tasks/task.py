@@ -9,6 +9,7 @@ class Task:
         """
         A Task maintains the scene, the potential human actions, as well as the controller that steps the environment.
         """
+        # TODO: test a few behavior tasks, based on the human actions currently available
         self.name = name
         if name == "BringCoffee":
             self.query = "Can you bring the mug with coffee to the dining table?"
@@ -17,21 +18,25 @@ class Task:
                         FillObjectWithLiquid('Mug', 'coffee')]
             self.state_changes = {0: hum_act1}
 
-        elif name == "ChillApple":
-            self.query = "Can you chill the apple?"
+        elif name == "FreezeApple":
+            self.query = "Can you freeze the apple?"
             self.scene = "FloorPlan10"
-            self.state_changes = {0:MoveTo('Apple', "Plate")}
+            # self.state_changes = {0: MoveTo('Apple', "Plate"), 1: MoveTo('Plate', "Microwave")}
+            self.state_changes = {0: [MoveTo('Apple', "Microwave")]}
 
         elif name == "CookPotato":
-            self.query = "Can you cook the patato?"
+            self.query = "Can you heat the patato?"
             self.scene = "FloorPlan10"
-            hum_act1 = self.hide_obj_in_container("Bread", "Fridge")
+            hum_act1 = self.hide_obj_in_container("Potato", "Fridge")
             self.state_changes = {0: hum_act1}
 
         elif name == "CleanUpKitchen":
-            self.query = "Can you clean up the kitchen?"
+            self.query = "Can you clean all objects in the kitchen?"
             self.scene = "FloorPlan10"
-            hum_act1 = [MoveTo('Potato', "Fridge"), MoveTo('Bread', "Fridge"), MoveTo('Egg', "Fridge"), MoveTo('Mug', "Fridge")]
+            hum_act1 = [ChangeObjectState('Plate', "DirtyObject"),
+                        ChangeObjectState('Pot', "DirtyObject"),
+                        ChangeObjectState('Mug', "DirtyObject")]
+            # hum_act2 = [MoveTo('Plate', "Fridge"), MoveTo('Mug', "Fridge")]
             self.state_changes = {0: hum_act1}
 
         elif name == "CleanMug":
@@ -42,24 +47,29 @@ class Task:
             hum_act3 = [EmptyLiquidFromObject('Mug')]
             self.state_changes = {1: hum_act1, 2: hum_act2, 3: hum_act3}
 
-        elif name == "Breakfast":
-            self.query = "Can you put potato, bread, and egg on the dining table?"
+        elif name == "ServeBreakfast":
+            self.query = "Can you put potato, bread, and egg on the dining table sequentially?"
             self.scene = "FloorPlan10"
-            hum_act1 = [MoveTo('Potato', "DiningTable"), MoveTo('Egg', "DiningTable"), MoveTo('Bread', "DiningTable")]
+            hum_act1 = [MoveTo('Potato', "Fridge"), MoveTo('Egg', "Fridge"), MoveTo('Bread', "Fridge")]
             self.state_changes = {0: hum_act1}
 
         elif name == "ServeBread":
             self.query = "Can you put a bread with plate on the dining table?"
             self.scene = "FloorPlan26_physics"
-            hum_act1 = [MoveTo('Bread', "Plate"), MoveTo('Plate', "DiningTable")]
+            # hum_act1 = [MoveTo('Bread', "Plate"), MoveTo('Plate', "DiningTable")]  # This will solve the task
             hum_act1 = self.hide_obj_in_container("Bread", "Fridge")
             self.state_changes = {0: hum_act1}
-        elif name == "CleanKitchen":
-            self.query = "Can you clean the kitchen?"
-            # TODO: human makes something dirty along the way
-        elif name == "CleanLivingRoom":
-            # TODO: brainstorm more tasks in other room types
-            raise NotImplementedError
+
+        ##### Bedroom tasks #####
+        elif name == "TossPhone":
+            self.query = "Can you break the phone and throw it to the garbage can?"
+            self.scene = "FloorPlan326"
+            self.state_changes = {0: [MoveTo('Phone', "Bed")]}
+        elif name == "PlacePillow":
+            self.query = "Can you place the pillow on the bed?"
+            self.scene = "FloorPlan326"
+            hum_act1 = [MoveTo('Pillow', "Sofa")]
+            self.state_changes = {0: hum_act1}
         else:
             raise NotImplementedError
 

@@ -112,6 +112,7 @@ class FillObjectWithLiquid(PersonAction):
         return False
 
 
+# THis not only empties the liquid but also makes the object dirty
 class EmptyLiquidFromObject(PersonAction):
     def __init__(self, obj: str):
         self.obj = obj

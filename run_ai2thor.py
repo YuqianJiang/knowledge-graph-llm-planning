@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     task = Task(name=args.task)
 
-    agent_update_method = "none"  # wander, text, none
+    agent_update_method = "text"  # wander, text, none
     agent = KnowledgeGraphThorAgent(
         controller=task.controller,
         host=pgpass[0],
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     event = task.start()
     agent.load_simulation_state(event.metadata)
 
-    agent_plan = False  # If false, we simulate planning using a previous run
-    for t in range(8):
+    agent_plan = True  # If false, we simulate planning using a previous run
+    for t in range(5):
         state_changes = task.human_step(t)
         if len(state_changes) > 0:
             print("state changed, updating agent state")

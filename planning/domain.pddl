@@ -28,9 +28,11 @@
         (canFillWithLiquid ?o)
         (isFilledWithLiquid ?o)
         (fillLiquid ?o - object ?l - liquid)
+        (isColdSource ?o)
         (isHeatSource ?o)
         (temperature ?o - object ?t - temp)
         (sliceable ?o)
+        (controlledObjects ?k ?o)
         ; (isInteractable ?o)
     )
 

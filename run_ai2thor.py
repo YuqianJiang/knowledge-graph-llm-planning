@@ -4,8 +4,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Optional
-
-
+from time import time
 
 from agents.kg_agent import KnowledgeGraphThorAgent
 from tasks.task import Task
@@ -15,7 +14,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="knowledge_graph_llm_planning")
     parser.add_argument('--method', type=str, choices=["knowledge_graph"],
                                               default="knowledge_graph")
-    parser.add_argument('--task', type=str, default="BringCoffee") # BringCoffee, ChillApple, CleanMug
+    parser.add_argument('--task', type=str, default="BringCoffee")  # BringCoffee, ChillApple, CleanMug
     parser.add_argument('--run', type=int, default=0)
     args = parser.parse_args()
 
@@ -31,7 +30,7 @@ if __name__ == "__main__":
 
     task = Task(name=args.task)
 
-    agent_update_method = "text"  # wander, text, none
+    agent_update_method = "none"  # wander, text, none
     agent = KnowledgeGraphThorAgent(
         controller=task.controller,
         host=pgpass[0],
@@ -46,6 +45,7 @@ if __name__ == "__main__":
     event = task.start()
     agent.load_simulation_state(event.metadata)
 
+
     agent_plan = True  # If false, we simulate planning using a previous run
     for t in range(5):
         state_changes = task.human_step(t)
@@ -57,6 +57,9 @@ if __name__ == "__main__":
                 plan_file_name = agent.answer_planning_query(task.query)
             else:
                 plan_file_name = "experiments/kg/FloorPlan26_physics/run3/plan_0.pddl"
+            # wait for the plan to be ready
+            while not os.path.exists(plan_file_name):
+                time.sleep(1)
             agent.read_plan_for_execution(plan_file_name)
         succeed = agent.act()
         print("Step ", t, "succeed: ", succeed)

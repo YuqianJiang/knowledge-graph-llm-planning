@@ -124,13 +124,18 @@ class KnowledgeGraphThorAgent:
             obj2 = self.upper_name_to_lower_name[action[3]]
 
         # Build an action dict
-        valid_actions = ["PickupObject", "PutObject", "OpenObject", "CloseObject", "CleanObject", "GoToObject"]
+        valid_actions = ["PickupObject", "PutObject", "OpenObject", "CloseObject", "CleanObject", "GoToObject", "CoolObject"]
+        idle_actions = ["CoolObject"]
         self.upper_action_to_action = {k.upper(): k for k in valid_actions}
 
         if action[0] == "PUTDOWNOBJECT":
             info = self.putdown_object(obj1, obj2)
         elif action[0] == "GOTOOBJECTFROM":
             info = self.go_to_object(obj2)
+        elif action[0] in idle_actions:
+            self._controller.step(action="Pass")
+            self.input_observed_state()
+            info = True
         else:
             info = self.manipulate_object(self.upper_action_to_action[action[0]], obj2)
         return info
@@ -205,7 +210,7 @@ class KnowledgeGraphThorAgent:
                       'isHeatSource': [],
                       'isColdSource': [],
                       'sliceable': ['isSliced'],
-                      'openable': ['isOpen', 'openness'],
+                      'openable': ['isOpen'],
                       'pickupable': ['isPickedUp'],
                       'objectType': []}
         # 'moveable': ['isMoving']}
@@ -328,7 +333,7 @@ class KnowledgeGraphThorAgent:
         if obj['openable']:
             self.open_object(next_location)
         for contained_id in obj['receptacleObjectIds']:
-            contained_obj = [o for o in object_states if o['objectId'] ==    contained_id][0]
+            contained_obj = [o for o in object_states if o['objectId'] == contained_id][0]
             self.go_to_object(contained_obj['name'])
         if obj['openable']:
             self.close_object(next_location)

@@ -1,0 +1,43 @@
+------------------------------------------------
+STATE CHANGE: I moved the Potato to the Fridge.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Potato_e4559da4 -> sliceable -> True
+Potato_e4559da4 -> isSliced -> False
+Potato_e4559da4 -> pickupable -> True
+Potato_e4559da4 -> isPickedUp -> False
+Potato_e4559da4 -> temperature -> RoomTemp
+Potato_e4559da4 -> controlledObjects -> None
+Potato_e4559da4 -> isPlacedAt -> CounterTop_f036610b
+Potato_e4559da4 -> cookable -> True
+Potato_e4559da4 -> isCooked -> False
+Fridge_5134d575 -> temperature -> RoomTemp
+Fridge_5134d575 -> controlledObjects -> None
+Fridge_5134d575 -> receptacle -> True
+Fridge_5134d575 -> openable -> True
+Fridge_5134d575 -> isOpen -> False
+Egg_afaaaca3 -> isPlacedAt -> Fridge_5134d575
+Lettuce_0340e5ea -> isPlacedAt -> Fridge_5134d575
+Fridge_5134d575 -> isColdSource -> True
+Fridge_5134d575 -> isFridge -> True
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Potato_e4559da4 -> pickupable -> True
+Potato_e4559da4 -> isPickedUp -> False
+Potato_e4559da4 -> isPlacedAt -> CounterTop_f036610b
+Fridge_5134d575 -> receptacle -> True
+Fridge_5134d575 -> openable -> True
+Fridge_5134d575 -> isOpen -> False
+Fridge_5134d575 -> isColdSource -> True
+Fridge_5134d575 -> isFridge -> True
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Potato_e4559da4 -> isPlacedAt -> CounterTop_f036610b
+
+ADD:
+Potato_e4559da4 -> isPlacedAt -> Fridge_5134d575
+------------------------------------------------

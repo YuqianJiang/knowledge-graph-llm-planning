@@ -1,0 +1,47 @@
+------------------------------------------------
+STATE CHANGE: I moved the Apple to the Microwave.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Microwave_d8b935e4 -> temperature -> RoomTemp
+Microwave_d8b935e4 -> receptacle -> True
+Microwave_d8b935e4 -> openable -> True
+Microwave_d8b935e4 -> isOpen -> False
+Microwave_d8b935e4 -> toggleable -> True
+Microwave_d8b935e4 -> isToggled -> False
+Microwave_d8b935e4 -> isHeatSource -> True
+Microwave_d8b935e4 -> isMicrowave -> True
+Apple_f33eaaa0 -> sliceable -> True
+Apple_f33eaaa0 -> isSliced -> False
+Apple_f33eaaa0 -> pickupable -> True
+Apple_f33eaaa0 -> isPickedUp -> False
+Apple_f33eaaa0 -> temperature -> RoomTemp
+Apple_f33eaaa0 -> controlledObjects -> None
+Apple_f33eaaa0 -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Microwave_d8b935e4 -> temperature -> RoomTemp
+Microwave_d8b935e4 -> receptacle -> True
+Microwave_d8b935e4 -> openable -> True
+Microwave_d8b935e4 -> isOpen -> False
+Microwave_d8b935e4 -> toggleable -> True
+Microwave_d8b935e4 -> isToggled -> False
+Microwave_d8b935e4 -> isHeatSource -> True
+Microwave_d8b935e4 -> isMicrowave -> True
+Apple_f33eaaa0 -> sliceable -> True
+Apple_f33eaaa0 -> isSliced -> False
+Apple_f33eaaa0 -> pickupable -> True
+Apple_f33eaaa0 -> isPickedUp -> False
+Apple_f33eaaa0 -> temperature -> RoomTemp
+Apple_f33eaaa0 -> controlledObjects -> None
+Apple_f33eaaa0 -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Apple_f33eaaa0 -> isPlacedAt -> CounterTop_f036610b
+
+ADD:
+Apple_f33eaaa0 -> isPlacedAt -> Microwave_d8b935e4
+------------------------------------------------

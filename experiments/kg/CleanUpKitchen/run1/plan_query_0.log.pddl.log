@@ -1,0 +1,21 @@
+ --- OK.
+ Match tree built with 655 nodes.
+
+PDDL problem description loaded: 
+	Domain: ROBOT
+	Problem: P0
+	#Actions: 655
+	#Fluents: 118
+Landmarks found: 1
+Starting search with IW (time budget is 60 secs)...
+rel_plan size: 3
+#RP_fluents 5
+Caption
+{#goals, #UNnachieved,  #Achieved} -> IW(max_w)
+
+{1/1/0}:IW(1) -> [2][3][4]rel_plan size: 0
+#RP_fluents 0Plan found with cost: 3
+Total time: 0.000611999
+Nodes generated during search: 84
+Nodes expanded during search: 30
+IW search completed

@@ -1,0 +1,47 @@
+------------------------------------------------
+STATE CHANGE: I moved the Bread to the Fridge.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Bread_fe4bb3e3 -> sliceable -> True
+Bread_fe4bb3e3 -> isSliced -> False
+Bread_fe4bb3e3 -> pickupable -> True
+Bread_fe4bb3e3 -> isPickedUp -> False
+Bread_fe4bb3e3 -> temperature -> RoomTemp
+Bread_fe4bb3e3 -> controlledObjects -> None
+Bread_fe4bb3e3 -> isPlacedAt -> DiningTable_fc569e38
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> controlledObjects -> None
+Fridge_22a96a15 -> receptacle -> True
+Fridge_22a96a15 -> openable -> True
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> isPlacedAt -> Floor_1902395b
+Lettuce_3b3e7df4 -> isPlacedAt -> Fridge_22a96a15
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+Fridge_22a96a15 -> isColdSource -> True
+Fridge_22a96a15 -> isFridge -> True
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Bread_fe4bb3e3 -> sliceable -> True
+Bread_fe4bb3e3 -> isSliced -> False
+Bread_fe4bb3e3 -> pickupable -> True
+Bread_fe4bb3e3 -> isPickedUp -> False
+Bread_fe4bb3e3 -> temperature -> RoomTemp
+Bread_fe4bb3e3 -> isPlacedAt -> DiningTable_fc569e38
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> receptacle -> True
+Fridge_22a96a15 -> openable -> True
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> isPlacedAt -> Floor_1902395b
+Fridge_22a96a15 -> isColdSource -> True
+Fridge_22a96a15 -> isFridge -> True
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Bread_fe4bb3e3 -> isPlacedAt -> DiningTable_fc569e38
+
+ADD:
+Bread_fe4bb3e3 -> isPlacedAt -> Fridge_22a96a15
+------------------------------------------------

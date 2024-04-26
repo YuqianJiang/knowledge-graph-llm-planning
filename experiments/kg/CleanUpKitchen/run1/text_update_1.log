@@ -1,0 +1,39 @@
+------------------------------------------------
+STATE CHANGE: The Pot is dirty.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Pot_83694083 -> pickupable -> True
+Pot_83694083 -> isPickedUp -> False
+Pot_83694083 -> temperature -> RoomTemp
+Pot_83694083 -> controlledObjects -> None
+Pot_83694083 -> canFillWithLiquid -> True
+Pot_83694083 -> isFilledWithLiquid -> False
+Pot_83694083 -> fillLiquid -> None
+Pot_83694083 -> receptacle -> True
+Pot_83694083 -> dirtyable -> True
+Pot_83694083 -> isDirty -> False
+Pot_83694083 -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Pot_83694083 -> pickupable -> True
+Pot_83694083 -> isPickedUp -> False
+Pot_83694083 -> temperature -> RoomTemp
+Pot_83694083 -> controlledObjects -> None
+Pot_83694083 -> canFillWithLiquid -> True
+Pot_83694083 -> isFilledWithLiquid -> False
+Pot_83694083 -> fillLiquid -> None
+Pot_83694083 -> receptacle -> True
+Pot_83694083 -> dirtyable -> True
+Pot_83694083 -> isDirty -> False
+Pot_83694083 -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Pot_83694083 -> isDirty -> False
+
+ADD:
+Pot_83694083 -> isDirty -> True
+------------------------------------------------

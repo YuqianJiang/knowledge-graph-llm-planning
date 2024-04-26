@@ -1,0 +1,57 @@
+Can you break the phone and throw it to the garbage can?
+[32;1m[1;3mEntities processed: ['garbage can.', 'GarbageCan_6fd936bc', 'task', 'phone', 'Robot', 'CellPhone_f2c48336', 'throw', 'garbage', 'robot', 'break']
+[0m[32;1m[1;3mEntities processed: ['waste', 'bot', 'telephone', 'MobilePhone', 'trash', 'bin', 'android', 'chore', 'trash bin', 'toss', 'GarbageCan', 'fracture']
+[0m[36;1m[1;3mGraph RAG context:
+The following are knowledge sequence in max depth 2 in the form of directed graph like:
+`subject -[predicate]->, object, <-[predicate_next_hop]-, object_next_hop ...` extracted based on key entities as subject:
+Robot, -[atLocation], -> Floor_3e4c5de1
+Floor_3e4c5de1, -[temperature], -> RoomTemp
+Floor_3e4c5de1, -[controlledObjects], -> None
+Floor_3e4c5de1, -[receptacle], -> True
+Cloth_4b47e1f9, -[isPlacedAt], -> Floor_3e4c5de1
+Bed_860b294e, -[isPlacedAt], -> Floor_3e4c5de1
+Drawer_385dbca5, -[isPlacedAt], -> Floor_3e4c5de1
+SideTable_9daa0f0e, -[isPlacedAt], -> Floor_3e4c5de1
+Bed_bef46c99, -[isPlacedAt], -> Floor_3e4c5de1
+BaseballBat_ef1b0e6e, -[isPlacedAt], -> Floor_3e4c5de1
+TennisRacket_711cdee9, -[isPlacedAt], -> Floor_3e4c5de1
+BasketBall_bb2afb95, -[isPlacedAt], -> Floor_3e4c5de1
+Chair_74b9cd06, -[isPlacedAt], -> Floor_3e4c5de1
+Desk_5980b1e1, -[isPlacedAt], -> Floor_3e4c5de1
+Chair_b37e67b5, -[isPlacedAt], -> Floor_3e4c5de1
+GarbageCan_6fd936bc, -[isPlacedAt], -> Floor_3e4c5de1
+CellPhone_f2c48336, -[pickupable], -> True
+CellPhone_f2c48336, -[isPickedUp], -> False
+CellPhone_f2c48336, -[temperature], -> RoomTemp
+CellPhone_f2c48336, -[isPlacedAt], -> Bed_860b294e
+CellPhone_f2c48336, -[breakable], -> True
+CellPhone_f2c48336, -[isBroken], -> False
+CellPhone_f2c48336, -[toggleable], -> True
+CellPhone_f2c48336, -[isToggled], -> False
+Bed_860b294e, -[temperature], -> RoomTemp
+Bed_860b294e, -[controlledObjects], -> None
+Bed_860b294e, -[receptacle], -> True
+Pillow_c56f3d25, -[isPlacedAt], -> Bed_860b294e
+Bed_860b294e, -[isPlacedAt], -> Floor_3e4c5de1
+Bed_860b294e, -[dirtyable], -> True
+Bed_860b294e, -[isDirty], -> True
+GarbageCan_6fd936bc, -[temperature], -> RoomTemp
+GarbageCan_6fd936bc, -[controlledObjects], -> None
+GarbageCan_6fd936bc, -[receptacle], -> True
+GarbageCan_6fd936bc, -[isPlacedAt], -> Floor_3e4c5de1
+Floor_3e4c5de1, -[temperature], -> RoomTemp
+Floor_3e4c5de1, -[controlledObjects], -> None
+Floor_3e4c5de1, -[receptacle], -> True
+Cloth_4b47e1f9, -[isPlacedAt], -> Floor_3e4c5de1
+Bed_860b294e, -[isPlacedAt], -> Floor_3e4c5de1
+Drawer_385dbca5, -[isPlacedAt], -> Floor_3e4c5de1
+SideTable_9daa0f0e, -[isPlacedAt], -> Floor_3e4c5de1
+Bed_bef46c99, -[isPlacedAt], -> Floor_3e4c5de1
+BaseballBat_ef1b0e6e, -[isPlacedAt], -> Floor_3e4c5de1
+TennisRacket_711cdee9, -[isPlacedAt], -> Floor_3e4c5de1
+BasketBall_bb2afb95, -[isPlacedAt], -> Floor_3e4c5de1
+Chair_74b9cd06, -[isPlacedAt], -> Floor_3e4c5de1
+Desk_5980b1e1, -[isPlacedAt], -> Floor_3e4c5de1
+Chair_b37e67b5, -[isPlacedAt], -> Floor_3e4c5de1
+Robot, -[atLocation], -> Floor_3e4c5de1
+[0m

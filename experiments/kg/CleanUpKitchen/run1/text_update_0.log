@@ -1,0 +1,36 @@
+------------------------------------------------
+STATE CHANGE: The Plate is dirty.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Plate_49b95a7a -> pickupable -> True
+Plate_49b95a7a -> isPickedUp -> False
+Plate_49b95a7a -> temperature -> RoomTemp
+Plate_49b95a7a -> controlledObjects -> None
+Plate_49b95a7a -> breakable -> True
+Plate_49b95a7a -> isBroken -> False
+Plate_49b95a7a -> receptacle -> True
+Plate_49b95a7a -> dirtyable -> True
+Plate_49b95a7a -> isDirty -> False
+Plate_49b95a7a -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Plate_49b95a7a -> pickupable -> True
+Plate_49b95a7a -> isPickedUp -> False
+Plate_49b95a7a -> temperature -> RoomTemp
+Plate_49b95a7a -> breakable -> True
+Plate_49b95a7a -> isBroken -> False
+Plate_49b95a7a -> receptacle -> True
+Plate_49b95a7a -> dirtyable -> True
+Plate_49b95a7a -> isDirty -> False
+Plate_49b95a7a -> isPlacedAt -> CounterTop_f036610b
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Plate_49b95a7a -> isDirty -> False
+
+ADD:
+Plate_49b95a7a -> isDirty -> True
+------------------------------------------------

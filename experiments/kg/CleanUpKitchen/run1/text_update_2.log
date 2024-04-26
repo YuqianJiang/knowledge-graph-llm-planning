@@ -1,0 +1,41 @@
+------------------------------------------------
+STATE CHANGE: The Mug is dirty.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Mug_2ec601ad -> pickupable -> True
+Mug_2ec601ad -> isPickedUp -> False
+Mug_2ec601ad -> temperature -> RoomTemp
+Mug_2ec601ad -> controlledObjects -> None
+Mug_2ec601ad -> breakable -> True
+Mug_2ec601ad -> isBroken -> False
+Mug_2ec601ad -> canFillWithLiquid -> True
+Mug_2ec601ad -> isFilledWithLiquid -> False
+Mug_2ec601ad -> fillLiquid -> None
+Mug_2ec601ad -> receptacle -> True
+Mug_2ec601ad -> dirtyable -> True
+Mug_2ec601ad -> isDirty -> False
+Mug_2ec601ad -> isPlacedAt -> SinkBasin_25ff5803
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Mug_2ec601ad -> pickupable -> True
+Mug_2ec601ad -> isPickedUp -> False
+Mug_2ec601ad -> breakable -> True
+Mug_2ec601ad -> isBroken -> False
+Mug_2ec601ad -> canFillWithLiquid -> True
+Mug_2ec601ad -> isFilledWithLiquid -> False
+Mug_2ec601ad -> fillLiquid -> None
+Mug_2ec601ad -> receptacle -> True
+Mug_2ec601ad -> dirtyable -> True
+Mug_2ec601ad -> isDirty -> False
+Mug_2ec601ad -> isPlacedAt -> SinkBasin_25ff5803
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Mug_2ec601ad -> isDirty -> False
+
+ADD:
+Mug_2ec601ad -> isDirty -> True
+------------------------------------------------

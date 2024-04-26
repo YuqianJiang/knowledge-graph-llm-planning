@@ -1,0 +1,33 @@
+------------------------------------------------
+STATE CHANGE: I moved the Pillow to the Sofa.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Pillow_0c062a19 -> pickupable -> True
+Pillow_0c062a19 -> isPickedUp -> False
+Pillow_0c062a19 -> temperature -> RoomTemp
+Pillow_0c062a19 -> controlledObjects -> None
+Pillow_0c062a19 -> isPlacedAt -> Bed_b8ad3dcc
+Sofa_b5903624 -> temperature -> RoomTemp
+Sofa_b5903624 -> controlledObjects -> None
+Sofa_b5903624 -> receptacle -> True
+Sofa_b5903624 -> isPlacedAt -> Floor_9ce8d4dd
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Pillow_0c062a19 -> pickupable -> True
+Pillow_0c062a19 -> isPickedUp -> False
+Pillow_0c062a19 -> temperature -> RoomTemp
+Pillow_0c062a19 -> isPlacedAt -> Bed_b8ad3dcc
+Sofa_b5903624 -> temperature -> RoomTemp
+Sofa_b5903624 -> receptacle -> True
+Sofa_b5903624 -> isPlacedAt -> Floor_9ce8d4dd
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Pillow_0c062a19 -> isPlacedAt -> Bed_b8ad3dcc
+---------------------
+ADD:
+Pillow_0c062a19 -> isPlacedAt -> Sofa_b5903624
+------------------------------------------------

@@ -1,0 +1,58 @@
+Can you put a clean mug on the dining table?
+[32;1m[1;3mEntities processed: ['table', 'mug', 'clean', 'put', 'dining', 'clean mug', 'Mug_8e482ae7', 'Robot', 'task', 'SinkBasin_ad9ebd80', 'dining table.', 'robot', 'DiningTable_fc569e37']
+[0m[32;1m[1;3mEntities processed: ['Machine', 'job', 'cup', 'dining desk', 'clean', 'tidy', 'clean cup', 'dining', 'place', 'Mug_8e482ae7', 'desk', 'SinkBasin_ad9ebd80', 'eating', 'DiningTable_fc569e37', 'machine']
+[0m[36;1m[1;3mGraph RAG context:
+The following are knowledge sequence in max depth 2 in the form of directed graph like:
+`subject -[predicate]->, object, <-[predicate_next_hop]-, object_next_hop ...` extracted based on key entities as subject:
+SinkBasin_ad9ebd80, -[temperature], -> RoomTemp
+SinkBasin_ad9ebd80, -[controlledObjects], -> None
+SinkBasin_ad9ebd80, -[receptacle], -> True
+DishSponge_c51474f6, -[isPlacedAt], -> SinkBasin_ad9ebd80
+Tomato_f8bc52bb, -[isPlacedAt], -> SinkBasin_ad9ebd80
+CounterTop_0aab7a9f, -[isPlacedAt], -> SinkBasin_ad9ebd80
+SinkBasin_ad9ebd80, -[isSinkBasin], -> True
+DishSponge_c51474f6, -[pickupable], -> True
+DishSponge_c51474f6, -[isPickedUp], -> False
+DishSponge_c51474f6, -[temperature], -> RoomTemp
+DishSponge_c51474f6, -[controlledObjects], -> None
+Tomato_f8bc52bb, -[sliceable], -> True
+Tomato_f8bc52bb, -[isSliced], -> False
+Tomato_f8bc52bb, -[pickupable], -> True
+Tomato_f8bc52bb, -[isPickedUp], -> False
+Tomato_f8bc52bb, -[temperature], -> RoomTemp
+Tomato_f8bc52bb, -[controlledObjects], -> None
+CounterTop_0aab7a9f, -[temperature], -> RoomTemp
+CounterTop_0aab7a9f, -[controlledObjects], -> None
+CounterTop_0aab7a9f, -[receptacle], -> True
+Apple_499e3527, -[isPlacedAt], -> CounterTop_0aab7a9f
+SoapBottle_76711a6f, -[isPlacedAt], -> CounterTop_0aab7a9f
+PepperShaker_ca490222, -[isPlacedAt], -> CounterTop_0aab7a9f
+SaltShaker_aa7ee03f, -[isPlacedAt], -> CounterTop_0aab7a9f
+ButterKnife_9d61f327, -[isPlacedAt], -> CounterTop_0aab7a9f
+Spatula_7afbb68f, -[isPlacedAt], -> CounterTop_0aab7a9f
+Microwave_e71f2758, -[isPlacedAt], -> CounterTop_0aab7a9f
+Faucet_41abd2a0, -[isPlacedAt], -> CounterTop_0aab7a9f
+Mug_8e482ae7, -[pickupable], -> True
+Mug_8e482ae7, -[isPickedUp], -> False
+Mug_8e482ae7, -[temperature], -> RoomTemp
+Mug_8e482ae7, -[controlledObjects], -> None
+Mug_8e482ae7, -[receptacle], -> True
+Mug_8e482ae7, -[breakable], -> True
+Mug_8e482ae7, -[isBroken], -> False
+Mug_8e482ae7, -[canFillWithLiquid], -> True
+Mug_8e482ae7, -[isFilledWithLiquid], -> False
+Mug_8e482ae7, -[fillLiquid], -> None
+Mug_8e482ae7, -[dirtyable], -> True
+Mug_8e482ae7, -[isDirty], -> False
+Mug_8e482ae7, -[isPlacedAt], -> CoffeeMachine_61ed6a3e
+CoffeeMachine_61ed6a3e, -[temperature], -> RoomTemp
+CoffeeMachine_61ed6a3e, -[receptacle], -> True
+CoffeeMachine_61ed6a3e, -[toggleable], -> True
+CoffeeMachine_61ed6a3e, -[isToggled], -> False
+CoffeeMachine_61ed6a3e, -[isHeatSource], -> True
+CoffeeMachine_61ed6a3e, -[isPlacedAt], -> CounterTop_8700c90d
+Robot, -[atLocation], -> LightSwitch_43d10eaa
+LightSwitch_43d10eaa, -[temperature], -> RoomTemp
+LightSwitch_43d10eaa, -[toggleable], -> True
+LightSwitch_43d10eaa, -[isToggled], -> True
+[0m

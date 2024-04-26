@@ -1,0 +1,52 @@
+Can you freeze the apple?
+[32;1m[1;3mEntities processed: ['apple.', 'Fridge_5134d575', 'Apple_f33eaaa0', 'Robot', 'robot', 'task', 'freeze']
+[0m[32;1m[1;3mEntities processed: ['Tasks', 'task', 'robot', 'apples', 'apple', 'Fridge', 'Fridge_5134d575', 'Freeze', 'fridge_5134d575', 'fridge', 'apple.', 'Apple', 'Freezes', 'Apple_f33eaaa0', 'freeze', 'tasks', 'Task', 'Robot', 'apple_f33eaaa0', 'robots', 'Robots', 'freezes', 'Apples']
+[0m[36;1m[1;3mGraph RAG context:
+The following are knowledge sequence in max depth 2 in the form of directed graph like:
+`subject -[predicate]->, object, <-[predicate_next_hop]-, object_next_hop ...` extracted based on key entities as subject:
+Fridge_5134d575, -[temperature], -> RoomTemp
+Fridge_5134d575, -[controlledObjects], -> None
+Fridge_5134d575, -[receptacle], -> True
+Fridge_5134d575, -[openable], -> True
+Fridge_5134d575, -[isOpen], -> False
+Egg_afaaaca3, -[isPlacedAt], -> Fridge_5134d575
+Lettuce_0340e5ea, -[isPlacedAt], -> Fridge_5134d575
+Fridge_5134d575, -[isColdSource], -> True
+Fridge_5134d575, -[isFridge], -> True
+Egg_afaaaca3, -[sliceable], -> True
+Egg_afaaaca3, -[isSliced], -> False
+Egg_afaaaca3, -[pickupable], -> True
+Egg_afaaaca3, -[isPickedUp], -> False
+Egg_afaaaca3, -[temperature], -> Cold
+Egg_afaaaca3, -[controlledObjects], -> None
+Egg_afaaaca3, -[breakable], -> True
+Egg_afaaaca3, -[isBroken], -> False
+Lettuce_0340e5ea, -[sliceable], -> True
+Lettuce_0340e5ea, -[isSliced], -> False
+Lettuce_0340e5ea, -[pickupable], -> True
+Lettuce_0340e5ea, -[isPickedUp], -> False
+Lettuce_0340e5ea, -[temperature], -> Cold
+Lettuce_0340e5ea, -[controlledObjects], -> None
+Apple_f33eaaa0, -[sliceable], -> True
+Apple_f33eaaa0, -[isSliced], -> False
+Apple_f33eaaa0, -[pickupable], -> True
+Apple_f33eaaa0, -[isPickedUp], -> False
+Apple_f33eaaa0, -[temperature], -> RoomTemp
+Apple_f33eaaa0, -[controlledObjects], -> None
+Apple_f33eaaa0, -[isPlacedAt], -> Microwave_d8b935e4
+Microwave_d8b935e4, -[temperature], -> RoomTemp
+Microwave_d8b935e4, -[receptacle], -> True
+Microwave_d8b935e4, -[openable], -> True
+Microwave_d8b935e4, -[isOpen], -> False
+Microwave_d8b935e4, -[toggleable], -> True
+Microwave_d8b935e4, -[isToggled], -> False
+Microwave_d8b935e4, -[isHeatSource], -> True
+Microwave_d8b935e4, -[isMicrowave], -> True
+Robot, -[atLocation], -> StoveBurner_1253da28
+StoveBurner_1253da28, -[temperature], -> RoomTemp
+StoveBurner_1253da28, -[controlledObjects], -> None
+StoveKnob_690d0d5d, -[controlledObjects], -> StoveBurner_1253da28
+StoveBurner_1253da28, -[receptacle], -> True
+StoveBurner_1253da28, -[isHeatSource], -> True
+Pan_9ab103d1, -[isPlacedAt], -> StoveBurner_1253da28
+[0m

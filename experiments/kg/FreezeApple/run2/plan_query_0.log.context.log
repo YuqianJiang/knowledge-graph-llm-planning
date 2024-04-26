@@ -1,0 +1,59 @@
+Can you freeze the apple?
+[32;1m[1;3mEntities processed: ['task', 'apple.', 'Robot', 'Apple_f33eaaa0', 'freeze', 'robot', 'Fridge_5134d575']
+[0m[32;1m[1;3mEntities processed: ['automaton', 'chill', 'android', 'Apple_f33eaaa0', 'apple', 'chore', 'Fridge_5134d575']
+[0m[36;1m[1;3mGraph RAG context:
+The following are knowledge sequence in max depth 2 in the form of directed graph like:
+`subject -[predicate]->, object, <-[predicate_next_hop]-, object_next_hop ...` extracted based on key entities as subject:
+Fridge_5134d575, -[temperature], -> RoomTemp
+Fridge_5134d575, -[controlledObjects], -> None
+Fridge_5134d575, -[receptacle], -> True
+Fridge_5134d575, -[openable], -> True
+Fridge_5134d575, -[isOpen], -> False
+Egg_afaaaca3, -[isPlacedAt], -> Fridge_5134d575
+Lettuce_0340e5ea, -[isPlacedAt], -> Fridge_5134d575
+Fridge_5134d575, -[isColdSource], -> True
+Fridge_5134d575, -[isFridge], -> True
+Egg_afaaaca3, -[sliceable], -> True
+Egg_afaaaca3, -[isSliced], -> False
+Egg_afaaaca3, -[pickupable], -> True
+Egg_afaaaca3, -[isPickedUp], -> False
+Egg_afaaaca3, -[temperature], -> Cold
+Egg_afaaaca3, -[controlledObjects], -> None
+Egg_afaaaca3, -[breakable], -> True
+Egg_afaaaca3, -[isBroken], -> False
+Lettuce_0340e5ea, -[sliceable], -> True
+Lettuce_0340e5ea, -[isSliced], -> False
+Lettuce_0340e5ea, -[pickupable], -> True
+Lettuce_0340e5ea, -[isPickedUp], -> False
+Lettuce_0340e5ea, -[temperature], -> Cold
+Lettuce_0340e5ea, -[controlledObjects], -> None
+Robot, -[atLocation], -> StoveBurner_1253da28
+StoveBurner_1253da28, -[temperature], -> RoomTemp
+StoveBurner_1253da28, -[controlledObjects], -> None
+StoveKnob_690d0d5d, -[controlledObjects], -> StoveBurner_1253da28
+StoveBurner_1253da28, -[receptacle], -> True
+StoveBurner_1253da28, -[isHeatSource], -> True
+Pan_9ab103d1, -[isPlacedAt], -> StoveBurner_1253da28
+Apple_f33eaaa0, -[sliceable], -> True
+Apple_f33eaaa0, -[isSliced], -> False
+Apple_f33eaaa0, -[pickupable], -> True
+Apple_f33eaaa0, -[isPickedUp], -> False
+Apple_f33eaaa0, -[temperature], -> RoomTemp
+Apple_f33eaaa0, -[controlledObjects], -> None
+Apple_f33eaaa0, -[isPlacedAt], -> CounterTop_f036610b
+CounterTop_f036610b, -[temperature], -> RoomTemp
+CounterTop_f036610b, -[controlledObjects], -> None
+CounterTop_f036610b, -[receptacle], -> True
+Statue_ed6ce732, -[isPlacedAt], -> CounterTop_f036610b
+CreditCard_fad504dd, -[isPlacedAt], -> CounterTop_f036610b
+Pot_83694083, -[isPlacedAt], -> CounterTop_f036610b
+Spoon_4a610c23, -[isPlacedAt], -> CounterTop_f036610b
+ButterKnife_42394ea7, -[isPlacedAt], -> CounterTop_f036610b
+Fork_b9c0113d, -[isPlacedAt], -> CounterTop_f036610b
+HousePlant_b9508896, -[isPlacedAt], -> CounterTop_f036610b
+SoapBottle_5ec2e889, -[isPlacedAt], -> CounterTop_f036610b
+Plate_49b95a7a, -[isPlacedAt], -> CounterTop_f036610b
+Bread_5dd97b2d, -[isPlacedAt], -> CounterTop_f036610b
+Potato_e4559da4, -[isPlacedAt], -> CounterTop_f036610b
+Tomato_9c51c4ef, -[isPlacedAt], -> CounterTop_f036610b
+[0m

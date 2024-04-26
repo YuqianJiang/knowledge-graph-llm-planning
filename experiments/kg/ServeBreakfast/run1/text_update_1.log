@@ -1,0 +1,48 @@
+------------------------------------------------
+STATE CHANGE: I moved the Egg to the Fridge.
+------------------------------------------------
+EXTRACTED TRIPLETS:
+
+Egg_088cf379 -> sliceable -> True
+Egg_088cf379 -> isSliced -> False
+Egg_088cf379 -> pickupable -> True
+Egg_088cf379 -> isPickedUp -> False
+Egg_088cf379 -> temperature -> Cold
+Egg_088cf379 -> controlledObjects -> None
+Egg_088cf379 -> breakable -> True
+Egg_088cf379 -> isBroken -> False
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> controlledObjects -> None
+Fridge_22a96a15 -> receptacle -> True
+Fridge_22a96a15 -> openable -> True
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> isPlacedAt -> Floor_1902395b
+Lettuce_3b3e7df4 -> isPlacedAt -> Fridge_22a96a15
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+Potato_c28289a1 -> isPlacedAt -> Fridge_22a96a15
+Fridge_22a96a15 -> isColdSource -> True
+Fridge_22a96a15 -> isFridge -> True
+------------------------------------------------
+FILTERED TRIPLETS:
+
+Egg_088cf379 -> pickupable -> True
+Egg_088cf379 -> isPickedUp -> False
+Egg_088cf379 -> temperature -> Cold
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+Fridge_22a96a15 -> temperature -> RoomTemp
+Fridge_22a96a15 -> receptacle -> True
+Fridge_22a96a15 -> openable -> True
+Fridge_22a96a15 -> isOpen -> False
+Fridge_22a96a15 -> isPlacedAt -> Floor_1902395b
+Fridge_22a96a15 -> isColdSource -> True
+Fridge_22a96a15 -> isFridge -> True
+------------------------------------------------
+TRIPLETS TO ADD AND REMOVE
+
+REMOVE:
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+
+ADD:
+Egg_088cf379 -> isPlacedAt -> Fridge_22a96a15
+------------------------------------------------

@@ -38,6 +38,7 @@ class MoveTo(PersonAction):
     def execute(self, c: Controller) -> bool:
         receptacles = [r for r in c.last_event.metadata['objects'] if r['objectType'] == self.to]
         if len(receptacles) == 0:
+            print("no receptacle found")
             return False
 
         if self.next_to:
@@ -52,7 +53,9 @@ class MoveTo(PersonAction):
         elif len(receptacles) == 1:
             receptacle = receptacles[0]
         else:
-            return False
+            print("multiple receptacles found, using the first one")
+            receptacle = receptacles[0]
+            # return False
 
         event = c.step('GetSpawnCoordinatesAboveReceptacle', objectId=receptacle['objectId'], anywhere=True)
         if not event.metadata['lastActionSuccess']:

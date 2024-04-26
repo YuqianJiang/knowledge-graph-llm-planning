@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Optional
-from time import time
+from time import sleep
 
 from agents.kg_agent import KnowledgeGraphThorAgent
 from tasks.task import Task
@@ -30,7 +30,18 @@ if __name__ == "__main__":
 
     task = Task(name=args.task)
 
-    agent_update_method = "none"  # wander, text, none
+    mode = "full"  # debug, full
+
+    if mode == "debug":
+        agent_update_method = "none"  # wander, text, none
+        agent_plan = False
+        plan_file_name = "experiments/kg/" + args.task + "/run1/plan_0.pddl"
+    elif mode == "full":
+        agent_update_method = "text"  # wander, text, none
+        agent_plan = True  # If false, we simulate planning using a previous run
+    else:
+        raise ValueError("Invalid mode")
+
     agent = KnowledgeGraphThorAgent(
         controller=task.controller,
         host=pgpass[0],
@@ -45,9 +56,8 @@ if __name__ == "__main__":
     event = task.start()
     agent.load_simulation_state(event.metadata)
 
-
-    agent_plan = True  # If false, we simulate planning using a previous run
-    for t in range(5):
+    t = 0
+    while True:
         state_changes = task.human_step(t)
         if len(state_changes) > 0:
             print("state changed, updating agent state")
@@ -55,14 +65,14 @@ if __name__ == "__main__":
         if len(state_changes) > 0 or t == 0:  # replan condition
             if agent_plan:
                 plan_file_name = agent.answer_planning_query(task.query)
-            else:
-                plan_file_name = "experiments/kg/FloorPlan26_physics/run3/plan_0.pddl"
             # wait for the plan to be ready
             while not os.path.exists(plan_file_name):
-                time.sleep(1)
+                sleep(1)
             agent.read_plan_for_execution(plan_file_name)
         succeed = agent.act()
         print("Step ", t, "succeed: ", succeed)
+        t += 1
 
-        # TODO: terminate when the task is done
-
+        if len(agent.plan) == 0:
+            task.check_task_success()
+            break

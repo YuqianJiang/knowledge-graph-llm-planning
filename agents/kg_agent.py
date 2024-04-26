@@ -124,8 +124,9 @@ class KnowledgeGraphThorAgent:
             obj2 = self.upper_name_to_lower_name[action[3]]
 
         # Build an action dict
-        valid_actions = ["PickupObject", "PutObject", "OpenObject", "CloseObject", "CleanObject", "GoToObject", "CoolObject"]
-        idle_actions = ["CoolObject"]
+        valid_actions = ["PickupObject", "PutObject", "OpenObject", "CloseObject", "CleanObject", "GoToObject",
+                         "CoolObject", "ToggleObjectOn"]
+        idle_actions = ["COOLOBJECT", "HEATOBJECT"]
         self.upper_action_to_action = {k.upper(): k for k in valid_actions}
 
         if action[0] == "PUTDOWNOBJECT":
@@ -136,8 +137,10 @@ class KnowledgeGraphThorAgent:
             self._controller.step(action="Pass")
             self.input_observed_state()
             info = True
-        else:
+        elif len(action) > 3:
             info = self.manipulate_object(self.upper_action_to_action[action[0]], obj2)
+        else:
+            info = self.manipulate_object(self.upper_action_to_action[action[0]], obj1)
         return info
 
     def manipulate_object(self, action, object_name1):
@@ -151,6 +154,10 @@ class KnowledgeGraphThorAgent:
         object_id2 = self._name_to_id[object_name2]
         event = self._controller.step(action='PutObject', objectId=object_id1, forceAction=True)
         self.input_observed_state()
+
+        if not event.metadata['lastActionSuccess']:
+            import ipdb; ipdb.set_trace()
+
         return event.metadata['lastActionSuccess']
 
 
@@ -219,9 +226,8 @@ class KnowledgeGraphThorAgent:
         general_properties = ['temperature', 'controlledObjects']
 
         for obj in metadata['objects']:
-
             if obj['objectType'] == 'Floor':
-                continue
+                floor = obj
 
             # set_property_query = ", ".join([f"a.{p}='{obj[p]}'" for p in properties.keys()])
             cur.execute(
@@ -242,6 +248,10 @@ class KnowledgeGraphThorAgent:
             if obj['isInteractable'] and obj['distance'] < closest_interactable_distance:
                 closest_interactable_object = obj
                 closest_interactable_distance = obj['distance']
+
+        if closest_interactable_object is None:
+            closest_interactable_object = floor # TODO: this seems hacky
+            print("setting initial robot position to floor")
 
         # Create the robot node
         cur.execute(

@@ -14,7 +14,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="knowledge_graph_llm_planning")
     parser.add_argument('--method', type=str, choices=["knowledge_graph"],
                                               default="knowledge_graph")
-    parser.add_argument('--task', type=str, default="BringCoffee")  # BringCoffee, ChillApple, CleanMug
+    parser.add_argument('--task', type=str, default="CleanUpKitchen")  # BringCoffee, ChillApple, CleanMug, CleanUpKitchen
     parser.add_argument('--run', type=int, default=0)
     args = parser.parse_args()
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     task = Task(name=args.task)
 
-    mode = "full"  # debug, full
+    mode = "debug"  # debug, full
 
     if mode == "debug":
         agent_update_method = "none"  # wander, text, none

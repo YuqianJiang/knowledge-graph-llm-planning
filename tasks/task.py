@@ -4,6 +4,30 @@ from ai2thor.platform import CloudRendering
 from ai2thor.server import MetadataWrapper
 import ipdb
 
+def calculate_centroid(vertices):
+    n = len(vertices)
+    if n == 0:
+        return None
+
+    sum_x = sum(vertex['x'] for vertex in vertices)
+    sum_y = sum(vertex['y'] for vertex in vertices)
+    sum_z = sum(vertex['z'] for vertex in vertices)
+
+    centroid_x = sum_x / n
+    centroid_y = sum_y / n
+    centroid_z = sum_z / n
+
+    return {
+        'x': centroid_x,
+        'y': centroid_y,
+        'z': centroid_z
+    }
+
+def print_objects(scene):
+    for obj in scene['objects']:
+        print(obj['assetId'])
+
+
 class Task:
     def __init__(self, name):
         """
@@ -94,11 +118,112 @@ class Task:
             raise NotImplementedError
 
         use_cloud_render = False
-        # Initialize controller
-        if use_cloud_render:
-            self.controller = Controller(scene=f"{self.scene}", platform=CloudRendering, server_timeout=10)
+
+        import prior
+        import os
+        OBJAVERSE_HOUSES_DIR = "/home/jiahenghu/project/spoc-robot-training/objaverse_houses/houses_2023_07_28"
+        OBJAVERSE_ASSETS_DIR = "/home/jiahenghu/project/spoc-robot-training/objaverse_assets/2023_07_28/assets"
+        def split_to_procthor_houses():
+            # TODO: this would be for more diverse (but non-interactable objects)
+            # max_houses_per_split = {"train": 64, "val": 0, "test": 0}
+            # train_houses = prior.load_dataset(
+            #     dataset="spoc-data",
+            #     entity="spoc-robot",
+            #     revision="local-objaverse-procthor-houses",
+            #     path_to_splits=None,
+            #     split_to_path={
+            #         k: os.path.join(OBJAVERSE_HOUSES_DIR, f"{k}.jsonl.gz")
+            #         for k in ["train", "val", "test"]
+            #     },
+            #     max_houses_per_split=max_houses_per_split,
+            # )
+            train_houses = prior.load_dataset(
+                dataset="procthor-100k", entity="roseh-ai2", revision="tiny"
+            )
+            return train_houses
+
+        houses = split_to_procthor_houses()
+
+
+        test_objectthor = True
+        if test_objectthor:
+            try:
+                from ai2thor.hooks.procedural_asset_hook import (
+                    ProceduralAssetHookRunner,
+                    get_all_asset_ids_recursively,
+                    create_assets_if_not_exist,
+                )
+            except ImportError:
+                raise ImportError(
+                    "Cannot import `ProceduralAssetHookRunner`. Please install the appropriate version of ai2thor:\n"
+                    f"```\npip install --extra-index-url https://ai2thor-pypi.allenai.org"
+                    f" ai2thor==0+5e43486351ac6339c399c199e601c9dd18daecc3\n```"
+                )
+            class ProceduralAssetHookRunnerResetOnNewHouse(ProceduralAssetHookRunner):
+                def __init__(self, **kwargs):
+                    super().__init__(**kwargs)
+                    self.last_asset_id_set = set()
+
+                def Initialize(self, action, controller):
+                    if self.asset_limit > 0:
+                        return controller.step(
+                            action="DeleteLRUFromProceduralCache", assetLimit=self.asset_limit
+                        )
+
+                def CreateHouse(self, action, controller):
+                    house = action["house"]
+                    asset_ids = get_all_asset_ids_recursively(house["objects"], [])
+                    asset_ids_set = set(asset_ids)
+                    if not asset_ids_set.issubset(self.last_asset_id_set):
+                        controller.step(action="DeleteLRUFromProceduralCache", assetLimit=0)
+                        self.last_asset_id_set = set(asset_ids)
+
+                    return create_assets_if_not_exist(
+                        controller=controller,
+                        asset_ids=asset_ids,
+                        asset_directory=self.asset_directory,
+                        asset_symlink=self.asset_symlink,
+                        stop_if_fail=self.stop_if_fail,
+                    )
+
+            _ACTION_HOOK_RUNNER = ProceduralAssetHookRunnerResetOnNewHouse(
+                asset_directory=OBJAVERSE_ASSETS_DIR, asset_symlink=True, verbose=True, asset_limit=200
+            )
+
+            self.controller = Controller(scene=f"{self.scene}", action_hook_runner=_ACTION_HOOK_RUNNER) # TODO: load in a scene from objectThor
+            self.controller.reset(houses["train"][0])
+
+
+            scene = houses["train"][0]
+            number_of_houses = len(scene['rooms'])
+            room_location = {}
+            for room in scene['rooms']:
+                vertices = room['floorPolygon']
+                centroids = calculate_centroid(vertices)
+                print(centroids)
+                room_location[room['id']] = centroids
+
+            teleport_event = self.controller.step(
+                action="TeleportFull",
+                **scene["metadata"]["agent"],  # forceAction=True
+            )
+
+            if not teleport_event.metadata["lastActionSuccess"]:
+                print("FAILED TO TELEPORT AGENT AFTER INITIALIZATION", scene)
+                return teleport_event
+
+            event = self.controller.step(action="Pass")
+
+            print(room_location)
+            # TODO: @yuqian: here, we can decide what to store into the database (check room_location)
+            #   In this particular scene, a task that requires distances can be throw away the eggs into the trash can
+            import ipdb; ipdb.set_trace()
         else:
-            self.controller = Controller(scene=f"{self.scene}")
+            # Initialize controller
+            if use_cloud_render:
+                self.controller = Controller(scene=f"{self.scene}", platform=CloudRendering, server_timeout=10)
+            else:
+                self.controller = Controller(scene=f"{self.scene}")
 
     def hide_obj_in_container(self, obj, container):
         # TODO: seems like this is not necessary -> move to is enough

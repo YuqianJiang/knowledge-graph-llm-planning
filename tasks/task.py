@@ -186,9 +186,10 @@ class Task:
                         stop_if_fail=self.stop_if_fail,
                     )
 
-            _ACTION_HOOK_RUNNER = ProceduralAssetHookRunnerResetOnNewHouse(
-                asset_directory=OBJAVERSE_ASSETS_DIR, asset_symlink=True, verbose=True, asset_limit=200
-            )
+            # _ACTION_HOOK_RUNNER = ProceduralAssetHookRunnerResetOnNewHouse(
+            #     asset_directory=OBJAVERSE_ASSETS_DIR, asset_symlink=True, verbose=True, asset_limit=200
+            # )
+            _ACTION_HOOK_RUNNER = None
 
             self.controller = Controller(scene=f"{self.scene}", action_hook_runner=_ACTION_HOOK_RUNNER) # TODO: load in a scene from objectThor
             self.controller.reset(houses["train"][0])
